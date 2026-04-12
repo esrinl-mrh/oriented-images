@@ -17,8 +17,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Get the image URL from the URL parameter, this allows you to reuse the same HTML file e.g http://yourwebsite.com/your_viewer.html?image=https://your-s3-bucket.s3.amazonaws.com/360image.jpg
-var imageUrl = getUrlParameter('image');
-
+//var imageUrl = getUrlParameter('image');
+var imageUrl = getUrlParameter('image') || 'images/IMG_20260317_104907_00_010.jpg';
 // Load 360 image texture
 var texture = new THREE.TextureLoader().load(imageUrl);
 
