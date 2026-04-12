@@ -22,7 +22,7 @@ const FOV_MAX = 110;     // larger = zoom out limit
 const FOV_STEP = 2;      // wheel sensitivity
 
 // Sphere settings
-const SPHERE_RADIUS = 1000;
+const SPHERE_RADIUS = 100;
 const SPHERE_WIDTH_SEGMENTS = 60;
 const SPHERE_HEIGHT_SEGMENTS = 40;
 
