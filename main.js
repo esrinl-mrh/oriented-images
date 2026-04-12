@@ -1,3 +1,4 @@
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js";
 //import Orbit Controls - Orbit controls allow the camera to orbit around a target.
 import { OrbitControls } from 'https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js';
 
