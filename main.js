@@ -12,7 +12,10 @@ function getUrlParameter(name) {
 
 // Initialize Three.js scene
 var scene = new THREE.Scene();
+
+// camera
 var camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 0.1, 1000);
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -35,6 +38,22 @@ camera.position.set(0, 0, 0.1);
 // Add OrbitControls from the module
 var controls = new OrbitControls(camera, renderer.domElement);
 controls.enableZoom = false; // Disable zooming, you can enable it if needed
+
+const FOV_MIN = 40;
+const FOV_MAX = 110;
+const FOV_STEP = 2;
+
+
+window.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  camera.fov = THREE.MathUtils.clamp(
+    camera.fov + Math.sign(e.deltaY) * FOV_STEP,
+    FOV_MIN,
+    FOV_MAX
+  );
+  camera.updateProjectionMatrix();
+}, { passive: false });
+
 
 // Render loop
 function animate() {
