@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
 // ---------------------------
 // Helpers
 // ---------------------------
@@ -98,3 +99,34 @@ loader.load(
 // ---------------------------
 window.addEventListener(
   "wheel",
+  (e) => {
+    e.preventDefault();
+    const direction = Math.sign(e.deltaY);
+    camera.fov = THREE.MathUtils.clamp(
+      camera.fov + direction * FOV_STEP,
+      FOV_MIN,
+      FOV_MAX
+    );
+    camera.updateProjectionMatrix();
+  },
+  { passive: false }
+);
+
+// ---------------------------
+// Resize handler
+// ---------------------------
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ---------------------------
+// Render loop
+// ---------------------------
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
