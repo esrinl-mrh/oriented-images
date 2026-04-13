@@ -87,7 +87,7 @@ controls.maxPolarAngle = Math.PI - POLAR_EPS;
 // ---------------------------
 const loader = new THREE.TextureLoader();
 
-const imageUrl = getParam("img") || DEFAULT_IMAGE;
+const imageUrl = getParam("image") || DEFAULT_IMAGE;
 loader.load(
   imageUrl,
   (texture) => {
