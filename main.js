@@ -81,3 +81,61 @@ controls.enableZoom = false; // we zoom via camera.fov
 controls.minPolarAngle = POLAR_EPS;
 controls.maxPolarAngle = Math.PI - POLAR_EPS;
 
+// ---------------------------
+// Panorama mesh
+// ---------------------------
+const loader = new THREE.TextureLoader();
+
+const imageUrl = getParam("img") || DEFAULT_IMAGE;
+loader.load(
+  imageUrl,
+  (texture) => {
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    const geometry = new THREE.SphereGeometry(
+      SPHERE_RADIUS,
+      SPHERE_WIDTH_SEGMENTS,
+      SPHERE_HEIGHT_SEGMENTS
+    );
+    geometry.scale(-1, 1, 1); // view from inside
+
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+  },
+  undefined,
+  (err) => console.error("Failed to load texture:", imageUrl, err)
+);
+
+// ---------------------------
+// Resize handling
+// ---------------------------
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ---------------------------
+// Wheel zoom (camera.fov)
+// ---------------------------
+window.addEventListener(
+  "wheel",
+  (e) => {
+    e.preventDefault();
+    camera.fov = clamp(camera.fov + Math.sign(e.deltaY) * FOV_STEP, FOV_MIN, FOV_MAX);
+    camera.updateProjectionMatrix();
+  },
+  { passive: false }
+);
+
+// ---------------------------
+// Render loop
+// ---------------------------
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+
